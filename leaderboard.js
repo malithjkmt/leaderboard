@@ -1,12 +1,20 @@
 PlayersList =  new Mongo.Collection('players');
 
+if (Meteor.isServer){
+    Meteor.publish('thePlayers', function(){
+        var currentUserId = this.userId;
+        return PlayersList.find({createdBy:currentUserId})
+    });
+}
 
 
 if (Meteor.isClient){
+    Meteor.subscribe('thePlayers');
+
     Template.leaderboard.helpers({
         'player': function(){
             var currentUserId = Meteor.userId();
-            return PlayersList.find({createdBy: currentUserId}, {sort: {score:-1, name:1}})
+            return PlayersList.find({}, {sort: {score:-1, name:1}})
         },
         'selectedClass': function(){
             var playerId = this._id;
