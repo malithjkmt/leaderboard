@@ -6,7 +6,6 @@ if (Meteor.isServer){
         return PlayersList.find({createdBy:currentUserId})
     });
 
-
     Meteor.methods({
         'insertPlayerData': function(playerNameVar){
             var currentUserId = Meteor.userId();
